@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Challenge Code Editor | PyChallenge</title>
+<link rel="stylesheet" href="css/style.css">
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- CodeMirror -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/material-darker.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/hint/show-hint.min.css"
+    />
+
+    <!-- Custom Styling -->
+    <style>
+      :root {
+        --primary: #1e3a8a; /* Python Blue */
+        --secondary: #ffc107; /* Python Yellow */
+        --accent: #198754; /* Green Accent */
+        --bg-light: #f9f9f9;
+        --text-dark: #1f2937;
+        --white: #ffffff;
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 15px rgba(0, 0, 0, 0.08);
+        --shadow-lg: 0 8px 25px rgba(0, 0, 0, 0.1);
+        --danger: #ef4444;
+        --bg-dark: #1a1a1a;
+        --bg-light: #f8fafc;
+        --text-dark: #1e293b;
+        --text-light: #f8fafc;
+        --gray-200: #e2e8f0;
+        --gray-300: #cbd5e1;
+        --gray-700: #334155;
+
+        --border-radius: 12px;
+        --editor-radius: 8px;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f5f5f5;
+        color: var(--text-dark);
+        line-height: 1.6;
+      }
+
+      .code-font {
+        font-family: "Fira Code", monospace;
+      }
+
+      /* Header */
+      .challenge-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .section-title {
+        color: var(--primary);
+        font-weight: 700;
+        font-size: 1.8rem;
+        margin: 0;
+      }
+
+      /* Challenge Card */
+      .challenge-card {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        box-shadow: var(--shadow-sm);
+        border-left: 4px solid var(--secondary);
+        margin-bottom: 1.5rem;
+      }
+
+      .challenge-title {
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+        font-size: 1.2rem;
+        margin-bottom: 0.75rem;
+        color: var(--text-dark);
+      }
+
+      .challenge-title i {
+        margin-right: 0.5rem;
+        color: var(--primary);
+      }
+
+      .challenge-description {
+        color: var(--gray-700);
+        margin-bottom: 0.5rem;
+      }
+
+      /* Editor Container */
+      .editor-container {
+        background-color: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+        margin-bottom: 2rem;
+      }
+
+      .editor-header {
+        background-color: var(--bg-dark);
+        padding: 0.75rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top-left-radius: var(--editor-radius);
+        border-top-right-radius: var(--editor-radius);
+      }
+
+      .editor-title {
+        color: var(--text-light);
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin: 0;
+        display: flex;
+        align-items: center;
+      }
+
+      .editor-title i {
+        margin-right: 0.5rem;
+        color: var(--secondary);
+      }
+
+      .editor-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      /* CodeMirror Customization */
+      .CodeMirror {
+        height: 350px;
+        font-family: "Fira Code", monospace;
+        font-size: 14px;
+        line-height: 1.5;
+        border-radius: 0 0 var(--editor-radius) var(--editor-radius);
+        border: 1px solid var(--gray-200);
+      }
+
+      .CodeMirror-linenumber {
+        color: var(--gray-300);
+      }
+
+      /* Button Styles */
+      .btn-run {
+        background-color: var(--accent);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .btn-run:hover {
+        background-color: var(--accent-dark);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .btn-run:active {
+        transform: translateY(0);
+      }
+
+      .btn-submit {
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .btn-submit:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .btn-submit:active {
+        transform: translateY(0);
+      }
+
+      .btn-group {
+        display: flex;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+        justify-content: flex-end;
+      }
+
+      /* Output Section */
+      .output-container {
+        background-color: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+        margin-top: 1.5rem;
+      }
+
+      .output-header {
+        background-color: var(--bg-dark);
+        padding: 0.75rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top-left-radius: var(--editor-radius);
+        border-top-right-radius: var(--editor-radius);
+      }
+
+      .output-title {
+        color: var(--text-light);
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin: 0;
+        display: flex;
+        align-items: center;
+      }
+
+      .output-title i {
+        margin-right: 0.5rem;
+        color: var(--accent);
+      }
+
+      .output-box {
+        background-color: #1e1e1e;
+        color: #eee;
+        font-family: "Fira Code", monospace;
+        padding: 1.25rem;
+        white-space: pre-wrap;
+        min-height: 120px;
+        border-radius: 0 0 var(--editor-radius) var(--editor-radius);
+        overflow-y: auto;
+        max-height: 300px;
+      }
+
+      .output-success {
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      .output-error {
+        color: var(--danger);
+        font-weight: 600;
+      }
+
+      /* XP Badge */
+      .badge-xp {
+        background: var(--accent);
+        color: white;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 0.35rem 0.75rem;
+        border-radius: 50px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Modal */
+      .modal-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .modal-background.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .modal-content {
+        background-color: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-lg);
+        padding: 1.5rem;
+        width: 100%;
+        max-width: 500px;
+        transform: translateY(20px);
+        transition: transform 0.3s ease;
+      }
+
+      .modal-background.active .modal-content {
+        transform: translateY(0);
+      }
+
+      .modal-header {
+        margin-bottom: 1rem;
+      }
+
+      .modal-title {
+        font-weight: 600;
+        color: var(--text-dark);
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .modal-body {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: var(--text-dark);
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid var(--gray-300);
+        border-radius: 8px;
+        font-family: "Fira Code", monospace;
+        background-color: var(--bg-light);
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+      }
+
+      .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.75rem;
+      }
+
+      /* XP Animation */
+      #xpThrowContainer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 999;
+      }
+
+      .xp-coin {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background: linear-gradient(135deg, var(--secondary), var(--accent));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 0.7rem;
+        box-shadow: 0 2px 10px rgba(245, 158, 11, 0.3);
+        animation: throwCoin var(--duration) ease-out forwards;
+      }
+
+      @keyframes throwCoin {
+        0% {
+          transform: translate(0, 0) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(var(--tx), var(--ty)) scale(0);
+          opacity: 0;
+        }
+      }
+
+      /* Spinner */
+      .spinner {
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .btn-group {
+          flex-direction: column;
+        }
+
+        .CodeMirror {
+          height: 300px;
+        }
+      }
+
+      /* Syntax Highlighting Hints */
+      .CodeMirror-hints {
+        font-family: "Fira Code", monospace;
+        border-radius: 8px;
+        box-shadow: var(--shadow-md);
+      }
+
+      /* Completion Icons */
+      .CodeMirror-hint {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .cm-builtin:before {
+        content: "ƒ";
+        color: var(--secondary);
+        margin-right: 0.25rem;
+      }
+
+      /* Tab styling */
+      .nav-tabs {
+        border-bottom: 2px solid var(--gray-200);
+      }
+
+      .nav-tabs .nav-link {
+        border: none;
+        color: var(--gray-700);
+        font-weight: 500;
+        padding: 0.75rem 1.25rem;
+        transition: all 0.2s ease;
+      }
+
+      .nav-tabs .nav-link.active {
+        color: var(--primary);
+        background-color: transparent;
+        border-bottom: 3px solid var(--primary);
+      }
+
+      /* Challenge Progress */
+      .progress-container {
+        background-color: white;
+        border-radius: var(--border-radius);
+        padding: 1rem;
+        box-shadow: var(--shadow-sm);
+        margin-bottom: 1.5rem;
+      }
+
+      .progress-title {
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .progress-bar {
+        height: 8px;
+        border-radius: 4px;
+        background-color: var(--gray-200);
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #ffc107, #198754);
+        border-radius: 4px;
+        transition: width 0.3s ease;
+      }
+
+      /* Tooltip */
+      .tooltip-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        background-color: var(--gray-300);
+        color: var(--text-dark);
+        border-radius: 50%;
+        font-size: 0.7rem;
+        font-weight: bold;
+        margin-left: 0.25rem;
+        cursor: help;
+      }
+
+      /* Keyboard Shortcuts */
+      .shortcut-key {
+        display: inline-block;
+        background-color: var(--gray-200);
+        color: var(--gray-700);
+        padding: 0.15rem 0.4rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-family: "Fira Code", monospace;
+        margin: 0 0.15rem;
+      }
+      .bi-lightbulb {
+        color: var(--secondary) !important;
+      }
+      .bi-graph-up{
+        color: var(--accent);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+<header class="page-header text-white text-center py-5 px-3"
+style="background: linear-gradient(135deg, #00355f, #001c38);">
+<div class="container">
+  <h1 class="display-5 fw-bold mb-3" style="letter-spacing: 1px;">Python Code Editor</h1>
+  </h1>
+  <p class="lead mx-auto" style="max-width: 600px; opacity: 0.95;">
+    Write, test, and debug Python code in real-time. Solve challenges, see instant results, and track your progress!  </p>
+</div>
+</header>
+
+    <div class="container py-4">
+      <div class="row">
+        <div class="col-lg-8">
+          <!-- Challenge Header -->
+          <div class="challenge-header mb-4">
+            <h1 class="section-title">
+              Python <span style="color: var(--secondary)">Challenge</span>
+            </h1>
+            <div class="badge-xp">+10 XP</div>
+          </div>
+
+          <!-- Challenge Card -->
+          <div class="challenge-card">
+            <h3 class="challenge-title">
+              <i class="bi bi-terminal"></i>Print Hello World
+            </h3>
+            <p class="challenge-description">
+              Your first Python program! Just print
+              <code class="code-font">"Hello World"</code> to the screen.
+            </p>
+            <div class="d-flex align-items-center gap-2">
+              <span class="text-muted small"
+                ><i class="bi bi-lightbulb"></i> Hint:</span
+              >
+              <span class="small"
+                >Use the <code class="code-font">print()</code> function</span
+              >
+            </div>
+          </div>
+
+          <!-- Editor Container -->
+          <div class="editor-container">
+            <div class="editor-header">
+              <h3 class="editor-title">
+                <i class="bi bi-code-square"></i> editor.py
+              </h3>
+              <div class="editor-actions" >
+                <button
+                  id="openModalBtn"
+                  class="btn btn-sm btn-dark"
+                  title="Run Code"
+                >
+                  <i class="bi bi-play-fill"></i>
+                </button>
+                <button class="btn btn-sm btn-dark" title="Reset Code">
+                  <i class="bi bi-arrow-counterclockwise"></i>
+                </button>
+              </div>
+            </div>
+            <textarea id="codeEditor">
+# Write your solution here
+a = input("Enter your name: ")
+b = input("Enter your surname: ")
+print(a, b)</textarea
+            >
+          </div>
+
+          <!-- Output Container -->
+          <div
+            class="output-container"
+            id="outputSection"
+            style="display: none"
+          >
+            <div class="output-header">
+              <h3 class="output-title">
+                <i class="bi bi-terminal"></i> Output
+              </h3>
+            </div>
+            <div id="outputBox" class="output-box">
+              Your output will appear here...
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <!-- Challenge Progress -->
+          <div class="progress-container">
+            <h4 class="progress-title">
+              <i class="bi bi-graph-up"></i> Your Progress
+            </h4>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 25%"></div>
+            </div>
+            <div class="d-flex justify-content-between mt-2">
+              <span class="small text-muted">2/8 Challenges</span>
+              <span class="small text-muted">25% Complete</span>
+            </div>
+          </div>
+
+          <!-- Challenge Tips -->
+          <div class="challenge-card">
+            <h3 class="challenge-title">
+              <i class="bi bi-lightbulb"></i> Tips <span style="color: var(--secondary);"> &</span> Tricks
+            </h3>
+            <ul class="list-unstyled">
+              <li class="mb-2">
+                <i class="bi bi-check-circle text-success"></i> Use
+                <code class="code-font">print()</code> to display output
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-check-circle text-success"></i> Remember Python
+                is case-sensitive
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-check-circle text-success"></i> Strings need to
+                be in quotes
+              </li>
+            </ul>
+          </div>
+
+          <!-- Keyboard Shortcuts -->
+          <div class="challenge-card">
+            <h3 class="challenge-title">
+              <i class="bi bi-keyboard"></i> Shortcuts
+            </h3>
+            <ul class="list-unstyled">
+              <li class="mb-2">
+                <span class="shortcut-key">Ctrl</span> +
+                <span class="shortcut-key">Space</span> - Autocomplete
+              </li>
+              <li class="mb-2">
+                <span class="shortcut-key">Ctrl</span> +
+                <span class="shortcut-key">Enter</span> - Run Code
+              </li>
+              <li class="mb-2">
+                <span class="shortcut-key">Ctrl</span> +
+                <span class="shortcut-key">/</span> - Toggle Comment
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal-background">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">
+            <i class="bi bi-console"></i> Console Input
+          </h3>
+        </div>
+        <div class="modal-body">
+          <label for="userInput" class="form-label" id="inputLabel"
+            >Enter your input below:</label
+          >
+          <textarea
+            id="userInput"
+            class="form-input"
+            rows="3"
+            placeholder="Type your input here..."
+          ></textarea>
+        </div>
+        <div class="modal-footer">
+          <button id="closeModal" class="btn btn-secondary">Cancel</button>
+          <button id="runCodeWithInputBtn" class="btn btn-primary">
+            <i class="bi bi-play-fill"></i> Continue
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="xpThrowContainer"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/hint/show-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/hint/python-hint.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Add Comment Addon -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/comment/comment.min.js"></script>
+
+    <script>
+      // Update CodeMirror initialization
+      const editor = CodeMirror.fromTextArea(
+        document.getElementById("codeEditor"),
+        {
+          lineNumbers: true,
+          mode: "python",
+          theme: "material-darker",
+          indentUnit: 4,
+          tabSize: 4,
+          lineWrapping: true,
+          extraKeys: {
+            "Ctrl-Space": "autocomplete",
+            "Ctrl-Enter": runCode,
+            "Ctrl-/": "toggleComment",
+            "Shift-Ctrl-D": "deleteLine",
+            "Ctrl-L": "selectLine",
+          },
+          // Configure comment options for Python
+          comment: {
+            lineComment: "#",
+            blockComment: ['"""', '"""'],
+          },
+        }
+      );
+      // Add new shortcut functions
+      CodeMirror.commands.saveCode = function () {
+        const notification = document.createElement("div");
+        notification.className = "alert alert-info";
+        notification.innerHTML =
+          '<i class="bi bi-save"></i> Code saved (simulated)';
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 2000);
+      };
+
+      CodeMirror.commands.find = function (cm) {
+        cm.execCommand("find");
+      };
+
+      // Set initial editor value with better example
+      editor.setValue(`# Welcome to Python Challenge!
+# Your task is to print "Hello World"
+
+# Write your solution below this line
+`);
+
+      // Challenge data
+      const challengeData = {
+        id: "hello-world",
+        title: "Print Hello World",
+        description:
+          "Create a program that prints 'Hello World' to the console",
+        difficulty: "Beginner",
+        xp: 10,
+        expectedOutput: "Hello World",
+      };
+
+      // DOM Elements
+      const openModalBtn = document.getElementById("openModalBtn");
+      const submitBtn = document.getElementById("submitBtn");
+      const runCodeWithInputBtn = document.getElementById(
+        "runCodeWithInputBtn"
+      );
+      const closeModalBtn = document.getElementById("closeModal");
+      const modal = document.getElementById("modal");
+      const outputSection = document.getElementById("outputSection");
+      const outputBox = document.getElementById("outputBox");
+      const userInput = document.getElementById("userInput");
+      const inputLabel = document.getElementById("inputLabel");
+
+      // State variables
+      let currentInputIndex = 0;
+      let userInputs = [];
+      let prompts = [];
+      let xpGiven = false;
+
+      // Extract all input prompts from code
+      function extractInputPrompts(code) {
+        const inputRegex = /input\s*\(\s*['"]?([^'"]*)['"]?\s*\)/g;
+        const matches = [];
+        let match;
+        while ((match = inputRegex.exec(code)) !== null) {
+          matches.push(match[1] || `Input ${matches.length + 1}`);
+        }
+        return matches;
+      }
+
+      // Show modal with input prompt
+      function showInputModal() {
+        const code = editor.getValue();
+        prompts = extractInputPrompts(code);
+        userInputs = [];
+        currentInputIndex = 0;
+
+        if (prompts.length > 0) {
+          showNextPrompt();
+        } else {
+          runCode();
+        }
+      }
+
+      // Show next input prompt
+      function showNextPrompt() {
+        if (currentInputIndex < prompts.length) {
+          const promptText = prompts[currentInputIndex];
+          inputLabel.textContent =
+            promptText || `Enter input ${currentInputIndex + 1}`;
+          userInput.value = "";
+          modal.classList.add("active");
+        } else {
+          modal.classList.remove("active");
+          executeCode(editor.getValue(), userInputs.join("\n"));
+        }
+      }
+
+      // Execute code with inputs
+      async function executeCode(code, inputs) {
+        outputSection.style.display = "block";
+        outputBox.innerHTML = `<div><span class="spinner"></span> Running your code...</div>`;
+
+        try {
+          const response = await axios.post(
+            "https://emkc.org/api/v2/piston/execute",
+            {
+              language: "python3",
+              version: "*",
+              files: [{ name: "main.py", content: code }],
+              stdin: inputs,
+            }
+          );
+
+          const { output, stderr } = response.data.run;
+          displayOutput(output, stderr);
+        } catch (error) {
+          console.error("Execution error:", error);
+          outputBox.innerHTML = `<div class="output-error">❌ Error executing code: ${error.message}</div>`;
+        }
+      }
+
+      // Add these functions
+      function formatCode() {
+        try {
+          const code = editor.getValue();
+          // Simple formatting (add proper formatter like prettier in real implementation)
+          const formatted = code
+            .replace(/\bprint\s*\(\s*/g, "print(")
+            .replace(/=\s*/g, " = ")
+            .replace(/\s+/g, " ");
+          editor.setValue(formatted);
+        } catch (error) {
+          console.error("Formatting error:", error);
+        }
+      }
+
+      function resetCode() {
+        editor.setValue(`# Welcome to Python Challenge!
+# Your task is to print "Hello World"
+
+# Write your solution below this line
+`);
+        outputSection.style.display = "none";
+        userInputs = [];
+        currentInputIndex = 0;
+        xpGiven = false;
+      }
+
+      function formatOutput(output) {
+        // Get all input prompts from the code
+        const code = editor.getValue();
+        const prompts = extractInputPrompts(code);
+
+        // If there are inputs collected via modal
+        if (userInputs.length > 0) {
+          // Create clean input display section
+          const inputDisplay = prompts
+            .map((prompt, i) => `> ${prompt}: ${userInputs[i] || ""}`)
+            .join("\n");
+
+          // Remove all instances of input prompts from the output
+          let cleanOutput = output;
+          prompts.forEach((prompt) => {
+            // Remove the prompt text (with any following whitespace or colons)
+            cleanOutput = cleanOutput.replace(
+              new RegExp(`${prompt}[\\s:]*`, "g"),
+              ""
+            );
+          });
+
+          // Remove any empty lines and trim whitespace
+          cleanOutput = cleanOutput.trim();
+
+          // Special case: if output is empty after cleaning, show the inputs only
+          if (cleanOutput === "") {
+            return inputDisplay;
+          }
+
+          // Combine inputs and cleaned output with separation
+          return `${inputDisplay}\n\n${cleanOutput}`;
+        }
+
+        // Fallback for no inputs case
+        return output;
+      }
+
+      // Add event listeners for the format/reset buttons
+      document
+        .querySelector('.btn[title="Reset Code"]')
+        .addEventListener("click", resetCode);
+
+      // Modified displayOutput function to use the new format
+      function displayOutput(output, error) {
+        if (error) {
+          outputBox.innerHTML = `<div class="output-error">${formatError(
+            error
+          )}</div>`;
+        } else {
+          const cleanOutput = formatOutput(output);
+          const isCorrect = checkSolution(cleanOutput.trim());
+
+          if (isCorrect && !xpGiven) {
+            grantXP(challengeData.xp);
+            xpGiven = true;
+            outputBox.innerHTML = `
+          <div class="output-success">🎉 Correct! +${challengeData.xp} XP</div>
+          <pre>${cleanOutput}</pre>
+        `;
+          } else {
+            outputBox.innerHTML = `<pre>${cleanOutput}</pre>`;
+          }
+        }
+        outputSection.scrollIntoView({ behavior: "smooth" });
+      }
+      // Format error output
+      function formatError(error) {
+        return error
+          .split("\n")
+          .map((line) => {
+            if (line.includes("Error") || line.includes("Traceback")) {
+              return `<span style="color: var(--danger)">${line}</span>`;
+            }
+            return line;
+          })
+          .join("\n");
+      }
+
+      // Check if solution is correct
+      function checkSolution(output) {
+        return output.includes(challengeData.expectedOutput);
+      }
+
+      // Grant XP with animation
+      function grantXP(amount) {
+        const xpBadge = document.querySelector(".badge-xp");
+        const currentXP = parseInt(xpBadge.textContent.replace("+", "")) || 0;
+        xpBadge.textContent = `+${currentXP + amount} XP`;
+        animateXP();
+      }
+
+      // XP animation
+      function animateXP(count = 15) {
+        const container = document.getElementById("xpThrowContainer");
+
+        for (let i = 0; i < count; i++) {
+          const coin = document.createElement("div");
+          coin.className = "xp-coin";
+          coin.textContent = "+XP";
+
+          const startX = Math.random() * window.innerWidth;
+          const startY = window.innerHeight;
+
+          coin.style.left = `${startX}px`;
+          coin.style.top = `${startY}px`;
+
+          const tx = (Math.random() - 0.5) * 200;
+          const ty = -Math.random() * 300 - 100;
+
+          coin.style.setProperty("--tx", `${tx}px`);
+          coin.style.setProperty("--ty", `${ty}px`);
+          coin.style.setProperty("--duration", `${Math.random() * 1 + 1}s`);
+
+          container.appendChild(coin);
+
+          setTimeout(() => {
+            coin.remove();
+          }, 2000);
+        }
+      }
+
+      // Run code directly
+      function runCode() {
+        const code = editor.getValue();
+        if (code.includes("input(")) {
+          showInputModal();
+        } else {
+          executeCode(code, "");
+        }
+      }
+
+      // Event Listeners
+      openModalBtn.addEventListener("click", showInputModal);
+
+      submitBtn.addEventListener("click", () => {
+        const code = editor.getValue();
+        executeCode(code, userInputs.join("\n"));
+      });
+
+      runCodeWithInputBtn.addEventListener("click", () => {
+        userInputs.push(userInput.value);
+        currentInputIndex++;
+        showNextPrompt();
+      });
+
+      closeModalBtn.addEventListener("click", () => {
+        modal.classList.remove("active");
+      });
+
+      // Keyboard shortcuts
+      document.addEventListener("keydown", (e) => {
+        if (e.ctrlKey && e.key === "Enter") {
+          e.preventDefault();
+          runCode();
+        }
+      });
+    </script>
+  </body>
+</html>

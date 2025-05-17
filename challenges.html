@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PyChallenge - Challenges</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Add Animate.css for animations -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Rubik', sans-serif;
+      background-color: #f5f5f5 !important;
+      color: #333;
+    }
+
+    .filter-sidebar {
+      margin-left: 20px;
+      top: 20px;
+      background-color: var(--white) !important;
+      border-color: var(--white) !important;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .filter-sidebar h5 {
+      font-weight: bold;
+      margin-bottom: 15px;
+      text-align: left !important;
+      color: var(--secondary) !important;
+      padding-top: 5px;
+      padding-left: 6px;
+      padding-bottom: 6px;
+      border-bottom: #dddddd 1px solid;
+    }
+
+    .filter-sidebar .form-check {
+      margin-bottom: 10px;
+    }
+
+    aside {
+      margin-left: 0 !important;
+      /* Remove left margin */
+      padding-left: 0 !important;
+      left: 0 !important;
+    }
+
+    .main-container {
+      background-color: var(--white);
+      padding: 40px 30px;
+      border-radius: 18px;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 40px;
+      transition: all 0.3s ease;
+    }
+
+    .form-check-input:checked {
+      background-color: var(--primary) !important;
+      border-color: var(--primary) !important;
+    }
+
+    .form-check-input {
+      transition: background-color 0.3s ease !important;
+    }
+
+    .form-check-input:checked:hover {
+      background-color: #142b65 !important;
+      border-color: var(--primary) !important;
+    }
+
+    .form-check-input:hover {
+      border-color: #0d6efd !important;
+    }
+    .no-results {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .no-results-icon {
+    display: inline-block;
+    margin-bottom: 1rem;
+  }
+  .text-muted{
+    color: var(--primary) !important; 
+  }
+.challenge-level{
+  padding-top: 0px !important;
+}
+  </style>
+</head>
+<body>
+<!-- Header -->
+<header class="page-header text-white text-center py-5 px-3"
+  style="background: linear-gradient(135deg, #00355f, #001c38);">
+  <div class="container">
+    <h1 class="display-5 fw-bold mb-3" style="letter-spacing: 1px;">Python Challenges</h1>
+    </h1>
+    <p class="lead mx-auto" style="max-width: 600px; opacity: 0.95;">
+      Choose your level and start solving fun, bite-sized Python challenges to become a coding ninja!
+    </p>
+  </div>
+</header>
+
+<main class="container-fluid px-0 py-4">
+  <div class="row g-3">
+    <!-- Sidebar Filters -->
+    <aside class="col-lg-3 col-md-4 col-11 px-3">
+      <div class="filter-sidebar">
+        <h5><i class="bi bi-funnel-fill me-2 text-primary" style="color:var(--primary) !important;"></i>Filter
+          Challenges</h5>
+
+        <!-- Level Filter -->
+        <h6 class="subheading-text" style="font-size: 14px; font-weight: 600; color: #555; margin-bottom: 10px;">Level
+        </h6>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="beginner" id="filterBeginner">
+          <label class="form-check-label" for="filterBeginner">
+            <i class="bi bi-star-fill text-warning me-1"></i>Beginner
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="intermediate" id="filterIntermediate" >
+          <label class="form-check-label" for="filterIntermediate">
+            <i class="bi bi-lightning-fill text-success me-1"></i>Intermediate
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="pro" id="filterPro" >
+          <label class="form-check-label" for="filterPro">
+            <i class="bi bi-trophy-fill text-danger me-1"></i>Pro
+          </label>
+        </div>
+
+        <!-- XP Filter -->
+        <h6 class="subheading-text"
+          style="font-size: 14px; font-weight: 600; color: #555; margin-top: 20px; margin-bottom: 10px;">XP Range</h6>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="low" id="filterLowXP" >
+          <label class="form-check-label" for="filterLowXP">
+            <i class="bi bi-graph-down text-info me-1"></i>Low XP (0-20)
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="medium" id="filterMediumXP" >
+          <label class="form-check-label" for="filterMediumXP">
+            <i class="bi bi-graph-up text-primary me-1"></i>Medium XP (21-50)
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="high" id="filterHighXP" >
+          <label class="form-check-label" for="filterHighXP">
+            <i class="bi bi-graph-up-arrow text-success me-1"></i>High XP (51+)
+          </label>
+        </div>
+
+        <!-- Category Filter -->
+        <h6 class="subheading-text"
+          style="font-size: 14px; font-weight: 600; color: #555; margin-top: 20px; margin-bottom: 10px;">Category</h6>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="logic" id="filterLogic" >
+          <label class="form-check-label" for="filterLogic">
+            <i class="bi bi-puzzle-fill text-warning me-1"></i>Logic
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="math" id="filterMath" >
+          <label class="form-check-label" for="filterMath">
+            <i class="bi bi-calculator-fill text-success me-1"></i>Math
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="strings" id="filterStrings" >
+          <label class="form-check-label" for="filterStrings">
+            <i class="bi bi-fonts text-primary me-1"></i>Strings
+          </label>
+        </div>
+      </div>
+    </aside>
+
+
+
+    <!-- Challenge Sections -->
+    <div class="col-lg-9 col-md-8 col-11 px-3 main-container">
+      <!-- your existing challenge sections here -->
+      <!-- Beginner Level -->
+      <section class="challenge-level" style="margin: 0px !important;
+    padding: 0px !important;"></section>
+      <h3 class="section-title">🐣 Beginner Challenges</h3>
+      <div class="row g-4 mt-3">
+
+        <!-- Always Visible Challenges -->
+        <div class="col-md-6 col-lg-4 d-flex">
+          <div class="challenge-card flex-grow-1 d-flex flex-column p-3 border rounded" data-level="beginner"
+            data-xp="low" data-category="logic">
+            <h5 class="mb-2 d-flex align-items-center">
+              <i class="bi bi-terminal me-2 text-primary"></i>Print Hello World
+              <span class="badge badge-xp ms-auto">+10 XP</span>
+            </h5>
+            <p class="text-muted flex-grow-1">Your first Python program! Just print <code>"Hello World"</code> to the
+              screen.</p>
+            <a href="editor.html" class="btn btn-sm btn-challenge mt-2 align-self-start">Start Challenge</a>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 d-flex">
+          <div class="challenge-card flex-grow-1 d-flex flex-column p-3 border rounded" data-level="beginner"
+            data-xp="low" data-category="math">
+            <h5 class="mb-2 d-flex align-items-center">
+              <i class="bi bi-calculator me-2 text-success"></i>Basic Math
+              <span class="badge badge-xp ms-auto">+15 XP</span>
+            </h5>
+            <p class="text-muted flex-grow-1">Write a program to <code>add two numbers</code> and display the result.
+            </p>
+            <a href="editor.html" class="btn btn-sm btn-challenge mt-2 align-self-start">Start Challenge</a>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 d-flex">
+          <div class="challenge-card flex-grow-1 d-flex flex-column p-3 border rounded" data-level="beginner"
+            data-xp="low" data-category="basics">
+            <h5 class="mb-2 d-flex align-items-center">
+              <i class="bi bi-keyboard me-2 text-warning"></i>User Input
+              <span class="badge badge-xp ms-auto">+12 XP</span>
+            </h5>
+            <p class="text-muted flex-grow-1">Take user input and display it back. Learn the <code>input()</code>
+              function.</p>
+            <a href="editor.html" class="btn btn-sm btn-challenge mt-2 align-self-start">Start Challenge</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- More Challenges (Initially Hidden) -->
+      <div class="row g-4 mt-3 d-none" id="more-beginner-challenges">
+        <div class="col-md-6 col-lg-4 d-flex">
+          <div class="challenge-card flex-grow-1 d-flex flex-column p-3 border rounded" data-level="beginner"
+            data-xp="low" data-category="loops">
+            <h5 class="mb-2 d-flex align-items-center">
+              <i class="bi bi-list-ol me-2 text-danger"></i>List Printing
+              <span class="badge badge-xp ms-auto">+18 XP</span>
+            </h5>
+            <p class="text-muted flex-grow-1">Create a list of names and print each one using a loop.</p>
+            <a href="editor.html" class="btn btn-sm btn-challenge mt-2 align-self-start">Start Challenge</a>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 d-flex">
+          <div class="challenge-card flex-grow-1 d-flex flex-column p-3 border rounded" data-level="beginner"
+            data-xp="low" data-category="variables">
+            <h5 class="mb-2 d-flex align-items-center">
+              <i class="bi bi-code-square me-2 text-info"></i>Variable Practice
+              <span class="badge badge-xp ms-auto">+20 XP</span>
+            </h5>
+            <p class="text-muted flex-grow-1">Create and print variables of different types (string, int, float).</p>
+            <a href="editor.html" class="btn btn-sm btn-challenge mt-2 align-self-start">Start Challenge</a>
+          </div>
+        </div>
+
+
+        <div class="col-md-6 col-lg-4 d-flex">
+          <div class="challenge-card flex-grow-1 d-flex flex-column p-3 border rounded" data-level="beginner"
+            data-xp="low" data-category="conditionals">
+            <h5 class="mb-2 d-flex align-items-center">
+              <i class="bi bi-check2-square me-2 text-secondary"></i>If Statement Intro
+              <span class="badge badge-xp ms-auto">+22 XP</span>
+            </h5>
+            <p class="text-muted flex-grow-1">Use if statements to check if a number is positive, negative, or zero.</p>
+            <a href="editor.html" class="btn btn-sm btn-challenge mt-2 align-self-start">Start Challenge</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- View More Button -->
+      <div class="text-center mt-4">
+        <button class="btn btn-outline-primary px-4 py-2 rounded-pill fw-semibold"
+          onclick="showMoreChallenges('more-beginner-challenges', this)">
+          View More Beginner Challenges
+        </button>
+      </div>
+      <!-- Intermediate Level -->
+      <section class="challenge-level">
+        <h3 class="section-title">🚀 Intermediate Challenges</h3>
+        <div class="row g-4 mt-3">
+
+          <!-- Always Visible Challenges -->
+          <div class="col-md-6 col-lg-4 d-flex">
+            <div class="challenge-card flex-grow-1 d-flex flex-column p-3 border rounded" data-level="intermediate"
+              data-xp="medium" data-category="logic">
+              <h5 class="mb-2 d-flex align-items-center">
+                <i class="bi bi-percent me-2 text-danger"></i>Even or Odd Checker
+                <span class="badge badge-xp ms-auto">+25 XP</span>
+              </h5>
+              <p class="text-muted flex-grow-1">Write a program that checks if a number is <code>even or odd</code>.</p>
+              <a href="editor.html" class="btn btn-sm btn-challenge mt-2 align-self-start">Start Challenge</a>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4 d-flex">
+            <div class="challenge-card flex-grow-1 d-flex flex-column p-3 border rounded" data-level="intermediate"
+              data-xp="medium" data-category="math">
+              <h5 class="mb-2 d-flex align-items-center">
+                <i class="bi bi-calculator-fill me-2 text-warning"></i>Simple Calculator
+                <span class="badge badge-xp ms-auto">+30 XP</span>
+              </h5>
+              <p class="text-muted flex-grow-1"><code>Build a calculator</code> that performs +, −, ×, ÷ based on user
+                input.</p>
+              <a href="editor.html" class="btn btn-sm btn-challenge mt-2 align-self-start">Start Challenge</a>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4 d-flex">
+            <div class="challenge-card flex-grow-1 d-flex flex-column p-3 border rounded" data-level="intermediate"
+              data-xp="medium" data-category="loops">
+              <h5 class="mb-2 d-flex align-items-center">
+                <i class="bi bi-repeat me-2 text-success"></i>Loop Mastery
+                <span class="badge badge-xp ms-auto">+35 XP</span>
+              </h5>
+              <p class="text-muted flex-grow-1">Use <code>for</code> and <code>while</code> loops to repeat actions with
+                conditions.</p>
+              <a href="editor.html" class="btn btn-sm btn-challenge mt-2 align-self-start">Start Challenge</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- More Challenges (Initially Hidden) -->
+        <div class="row g-4 mt-3 d-none" id="more-intermediate-challenges">
+          <div class="col-md-6 col-lg-4 d-flex">
+            <div class="challenge-card flex-grow-1 d-flex flex-column p-3 border rounded" data-level="intermediate"
+              data-xp="medium" data-category="time">
+              <h5 class="mb-2 d-flex align-items-center">
+                <i class="bi bi-clock-history me-2 text-primary"></i>Timer App
+                <span class="badge badge-xp ms-auto">+38 XP</span>
+              </h5>
+              <p class="text-muted flex-grow-1">Create a timer that counts down from a given number of seconds.</p>
+              <a href="editor.html" class="btn btn-sm btn-challenge mt-2 align-self-start">Start Challenge</a>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4 d-flex">
+            <div class="challenge-card flex-grow-1 d-flex flex-column p-3 border rounded" data-level="intermediate"
+              data-xp="medium" data-category="security">
+              <h5 class="mb-2 d-flex align-items-center">
+                <i class="bi bi-shield-lock-fill me-2 text-secondary"></i>Password Strength Checker
+                <span class="badge badge-xp ms-auto">+40 XP</span>
+              </h5>
+              <p class="text-muted flex-grow-1">Write a program that checks how strong a password is based on given
+                criteria.</p>
+              <a href="editor.html" class="btn btn-sm btn-challenge mt-2 align-self-start">Start Challenge</a>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4 d-flex">
+            <div class="challenge-card flex-grow-1 d-flex flex-column p-3 border rounded" data-level="intermediate"
+              data-xp="medium" data-category="strings">
+              <h5 class="mb-2 d-flex align-items-center">
+                <i class="bi bi-sort-numeric-up me-2 text-warning"></i>Number Reverser
+                <span class="badge badge-xp ms-auto">+42 XP</span>
+              </h5>
+              <p class="text-muted flex-grow-1">Take a number as input and reverse its digits using a loop or string
+                method.</p>
+              <a href="editor.html" class="btn btn-sm btn-challenge mt-2 align-self-start">Start Challenge</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- View More Button -->
+        <div class="text-center mt-4">
+          <button class="btn btn-outline-primary px-4 py-2 rounded-pill fw-semibold"
+            onclick="showMoreChallenges('more-intermediate-challenges', this)">
+            View More Intermediate Challenges
+          </button>
+        </div>
+      </section>
+
+      <section class="challenge-level">
+        <h3 class="section-title">👨‍💻 Pro Challenges</h3>
+        <div class="row g-4 mt-3">
+
+          <!-- Always Visible Challenges -->
+          <div class="col-md-6 col-lg-4 d-flex">
+            <div class="challenge-card flex-grow-1 d-flex flex-column p-3 border rounded" data-level="pro"
+              data-xp="high" data-category="math,logic,loop">
+              <h5 class="mb-2 d-flex align-items-center">
+                <i class="bi bi-award me-2 text-danger"></i>Prime Number Finder
+                <span class="badge badge-xp mx-auto">+50 XP</span>
+              </h5>
+              <p class="text-muted flex-grow-1">
+                Check if a <code>number is prime</code> and list all <code>prime numbers under 100.</code>
+              </p>
+              <a href="editor.html" class="btn btn-sm btn-challenge mt-2 align-self-start">Start Challenge</a>
+            </div>
+
+          </div>
+
+          <div class="col-md-6 col-lg-4 d-flex">
+            <div class="challenge-card flex-grow-1 d-flex flex-column p-3 border rounded" data-level="pro"
+              data-xp="high" data-category="string,logic,algorithm">
+              <h5 class="mb-2 d-flex align-items-center">
+                <i class="bi bi-arrow-left-right me-2 text-primary"></i>Palindrome Checker
+                <span class="badge badge-xp ms-auto">+60 XP</span>
+              </h5>
+              <p class="text-muted flex-grow-1">Write a program to check whether a <code>word is a palindrome.</code>
+              </p>
+              <a href="editor.html" class="btn btn-sm btn-challenge mt-2 align-self-start">Start Challenge</a>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4 d-flex">
+            <div class="challenge-card flex-grow-1 d-flex flex-column p-3 border rounded" data-level="pro"
+              data-xp="high" data-category="recursion,algorithm,logic">
+              <h5><i class="bi bi-code-square me-2 text-success"></i>Recursion Mastery
+                <span class="badge badge-xp ms-auto">+70 XP</span>
+              </h5>
+              <p class="text-muted flex-grow-1">Solve a problem using recursive functions like
+                <code>factorial or Fibonacci.</code></p>
+              <a href="editor.html" class="btn btn-sm btn-challenge mt-2 align-self-start">Start Challenge</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- More Challenges (Initially Hidden) -->
+        <div class="row g-4 mt-3 d-none" id="more-pro-challenges">
+          <div class="col-md-6 col-lg-4 d-flex">
+            <div class="challenge-card flex-grow-1 d-flex flex-column p-3 border rounded" data-level="pro"
+              data-xp="high" data-category="loop,pattern,logic">
+              <h5 class="mb-2 d-flex align-items-center">
+                <i class="bi bi-hash me-2 text-warning"></i>Pattern Generator
+                <span class="badge badge-xp ms-auto">+75 XP</span>
+              </h5>
+              <p class="text-muted flex-grow-1">Generate triangle, pyramid, and diamond patterns using nested loops.</p>
+              <a href="editor.html" class="btn btn-sm btn-challenge mt-2 align-self-start">Start Challenge</a>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4 d-flex">
+            <div class="challenge-card flex-grow-1 d-flex flex-column p-3 border rounded" data-level="pro"
+              data-xp="very-high" data-category="string,data-analysis,logic">
+              <h5 class="mb-2 d-flex align-items-center">
+                <i class="bi bi-file-bar-graph-fill me-2 text-info"></i>Frequency Counter
+                <span class="badge badge-xp ms-auto">+80 XP</span>
+              </h5>
+              <p class="text-muted flex-grow-1">Count the frequency of each character or word in a given input.</p>
+              <a href="editor.html" class="btn btn-sm btn-challenge mt-2 align-self-start">Start Challenge</a>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4 d-flex">
+            <div class="challenge-card flex-grow-1 d-flex flex-column p-3 border rounded" data-level="pro"
+              data-xp="very-high" data-category="data-structure,quiz,logic">
+              <h5 class="mb-2 d-flex align-items-center">
+                <i class="bi bi-diagram-3 me-2 text-danger"></i>Data Structure Quiz
+                <span class="badge badge-xp ms-auto">+90 XP</span>
+              </h5>
+              <p class="text-muted flex-grow-1">Solve challenges that test your knowledge of lists, dictionaries, and
+                sets.</p>
+              <a href="editor.html" class="btn btn-sm btn-challenge mt-2 align-self-start">Start Challenge</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- View More Button -->
+        <div class="text-center mt-4">
+          <button class="btn btn-outline-primary px-4 py-2 rounded-pill fw-semibold"
+            onclick="showMoreChallenges('more-pro-challenges', this)">
+            View More Pro Challenges
+          </button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+</body>
+<script>
+  // Store original cards for reset functionality
+  const originalCards = Array.from(document.querySelectorAll(".challenge-card"));
+  const originalContainer = document.querySelector(".main-container").innerHTML;
+
+  function showMoreChallenges(sectionId, btn) {
+    document.getElementById(sectionId).classList.remove("d-none");
+    btn.style.display = "none";
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const checkboxes = document.querySelectorAll(".form-check-input");
+    const challengesContainer = document.querySelector(".main-container");
+
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener("change", applyFilters);
+    });
+
+    function applyFilters() {
+      console.clear();
+      console.log("--- FILTERING CHALLENGES ---");
+      
+      // Get all selected filters
+      const selectedFilters = {
+        levels: getCheckedValues(["filterBeginner", "filterIntermediate", "filterPro"]),
+        xp: getCheckedValues(["filterLowXP", "filterMediumXP", "filterHighXP"]),
+        categories: getCheckedValues(["filterLogic", "filterMath", "filterStrings"])
+      };
+
+      console.log("ACTIVE FILTERS:", selectedFilters);
+
+      // Reset to original structure if no filters are selected
+      if (selectedFilters.levels.length === 0 && 
+          selectedFilters.xp.length === 0 && 
+          selectedFilters.categories.length === 0) {
+        challengesContainer.innerHTML = originalContainer;
+        console.log("No filters selected - showing all cards in original sections");
+        return;
+      }
+
+      // Create a new unified container for filtered results
+      challengesContainer.innerHTML = `
+        <section class="challenge-level">
+          <h3 class="section-title">🔍 Filtered Challenges</h3>
+          <div class="row g-4 mt-3" id="filtered-challenges-container"></div>
+        </section>
+      `;
+
+      const filteredContainer = document.getElementById("filtered-challenges-container");
+      let visibleCount = 0;
+
+      originalCards.forEach(card => {
+        const cardData = {
+          level: card.dataset.level,
+          xp: card.dataset.xp,
+          categories: card.dataset.category.split(',').map(c => c.trim())
+        };
+
+        // Check if card matches ALL active filter groups
+        const matchesLevel = selectedFilters.levels.length === 0 || 
+                           selectedFilters.levels.includes(cardData.level);
+        
+        const matchesXP = selectedFilters.xp.length === 0 || 
+                        (cardData.xp === "very-high" ? 
+                         selectedFilters.xp.includes("high") : 
+                         selectedFilters.xp.includes(cardData.xp));
+        
+        const matchesCategory = selectedFilters.categories.length === 0 || 
+                              cardData.categories.some(cat => 
+                                selectedFilters.categories.includes(cat));
+
+        if (matchesLevel && matchesXP && matchesCategory) {
+          const colDiv = document.createElement('div');
+          colDiv.className = 'col-md-6 col-lg-4 d-flex';
+          colDiv.innerHTML = card.outerHTML;
+          filteredContainer.appendChild(colDiv);
+          visibleCount++;
+        }
+      });
+
+      console.log(`TOTAL FILTERED CARDS: ${visibleCount}`);
+
+      // Show "no results" message if no cards match filters
+      if (visibleCount === 0) {
+        challengesContainer.innerHTML = `
+          <section class="no-results text-center py-5">
+            <div class="no-results-icon animate__animated animate__shakeX">
+              <i class="bi bi-emoji-frown" style="font-size: 3rem; color: #ffc107;"></i>
+            </div>
+            <h3 class="mt-3 text-muted">No Challenges Found</h3>
+            <p class="text-muted">We couldn't find any challenges matching your filters.</p>
+            <button class="btn btn-outline-primary mt-3 animate__animated animate__pulse animate__infinite" 
+                    onclick="resetFilters()">
+              <i class="bi bi-arrow-counterclockwise"></i> Reset Filters
+            </button>
+          </section>
+        `;
+      }
+    }
+
+    function getCheckedValues(ids) {
+      return ids
+        .map(id => document.getElementById(id))
+        .filter(el => el && el.checked)
+        .map(el => el.value);
+    }
+
+    // Add this to your global scope (outside DOMContentLoaded)
+    window.resetFilters = function() {
+      document.querySelector(".main-container").innerHTML = originalContainer;
+      document.querySelectorAll(".form-check-input").forEach(checkbox => {
+        checkbox.checked = false;
+      });
+    };
+  });
+</script>
+
+</html>

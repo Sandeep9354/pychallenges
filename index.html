@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PyChallenge - Learn Python with Fun</title>
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Add in <head> -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg sticky-top bg-white shadow">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#"> Py <span>Challenge</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="challenges.html">Challenges</a></li>
+        <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Banner Section -->
+<section class="banner-section text-center position-relative">
+    <!-- Floating Python Icons (moved inside the banner before circles) -->
+    <div class="floating-icons position-absolute w-100 h-100 z-0">
+      <img src="https://img.icons8.com/color/96/python.png" class="float-icon top-left" alt="Python Icon" />
+      <img src="https://img.icons8.com/color/96/python.png" class="float-icon bottom-right" alt="Python Icon" />
+    </div>
+  
+    <!-- Banner Content -->
+    <div class="container position-relative z-1">
+        <h1 class="hero-heading display-5 fw-bold mb-3">
+            <span id="typed-text"></span><span class="cursor">|</span>
+          </h1>
+          <p class="subheading-text  mb-4">
+            Practice your coding skills and become a <span class="highlight-word">Python pro</span> with exciting tasks.
+          </p>
+                <a href="challenges.html" class="btn btn-warning btn-lg fw-semibold hero-btn">
+        🚀 Start Solving Now
+      </a>
+    </div>
+  </section>
+  <div class="container py-5">
+    <div class="row g-4">
+  
+      <!-- Upcoming Events -->
+      <div class="col-md-6">
+        <h3 class="section-heading mb-3"><span style="color: var(--secondary);"><i class="bi bi-calendar-event"></i> Upcoming</span> Events</h3>
+        <div class="card custom-card overflow-hidden position-relative" style="height: 340px;">
+          <div class="scrollable-content-event px-3 py-3">
+  
+            <div class="border-start border-4 ps-3 mb-3 notice-board text-secondary" style="border-color: var(--secondary) !important;">
+              <h6 class="fw-bold mb-1"><i class="bi bi-bookmark-star-fill me-2"></i>Python Basics Test</h6>
+              <p class="small text-muted mb-1"><i class="bi bi-calendar3"></i> May 10, 2025</p>
+              <p class="mb-0">MCQs from variables, loops, and datatypes. 30 mins only!</p>
+            </div>
+  
+            <div class="border-start border-4 ps-3 mb-3 notice-board text-secondary" style="border-color: var(--secondary) !important;">
+              <h6 class="fw-bold mb-1"><i class="bi bi-code-slash me-2"></i>Functions Challenge</h6>
+              <p class="small text-muted mb-1"><i class="bi bi-calendar3"></i> May 12, 2025</p>
+              <p class="mb-0">Code a calculator using Python functions — XP Bonus!</p>
+            </div>
+  
+            <div class="border-start border-4 ps-3 mb-3 notice-board text-secondary" style="border-color: var(--secondary) !important;">
+              <h6 class="fw-bold mb-1"><i class="bi bi-award me-2"></i>Leaderboard Results</h6>
+              <p class="small text-muted mb-1"><i class="bi bi-calendar3"></i> May 15, 2025</p>
+              <p class="mb-0">Top 10 challenge solvers will be announced. Are you in?</p>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+  
+      <!-- Notice Board -->
+      <div class="col-md-6">
+        <h3 class="section-heading mb-3"><span style="color: var(--secondary);"><i class="bi bi-megaphone"></i> Notice </span> Board</h3>
+        <div class="card custom-card overflow-hidden position-relative" style="height: 340px;">
+          <div class="scrollable-content px-3 py-3">
+  
+            <div class="notice-item  border-4 text-secondary ps-3 mb-3 event-card">
+              <h6 class="fw-bold text-dark"><i class="bi bi-info-circle"></i> New Chapter Released</h6>
+              <p class="mb-0">"Loops and Conditions" has been unlocked. Try the new MCQs!</p>
+              <a href="#event-details" class="read-more-link">Read Full Details <i class="bi bi-arrow-right-circle"></i></a>
+            </div>
+  
+            <div class="notice-item  border-4 text-secondary ps-3 mb-3 event-card">
+              <h6 class="fw-bold text-dark"><i class="bi bi-exclamation-triangle"></i> Test Delay</h6>
+              <p class="mb-0">Python Chapter 3 MCQ Test is postponed to May 14 due to server maintenance.</p>
+              <a href="#event-details" class="read-more-link">Read Full Details <i class="bi bi-arrow-right-circle"></i></a>
+            </div>
+  
+            <div class="notice-item text-secondary border-4 ps-3 mb-3 event-card">
+              <h6 class="fw-bold text-dark"><i class="bi bi-lightbulb"></i> Daily Hint</h6>
+              <p class="mb-0">Try using `while` loops with counters in your challenges today!</p>
+              <a href="#event-details" class="read-more-link">Read Full Details <i class="bi bi-arrow-right-circle"></i></a>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+
+  
+  <!-- Features Section -->
+<section class="features-section py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold " style="color:#1e3a8a;">Why <span class="text-warning">PyChallenge?</span></h2>
+        <p class="text-muted fs-5">Fun, interactive, and made just for students to learn coding!</p>
+      </div>
+      <div class="row g-4">
+        <!-- Feature 1 -->
+        <div class="col-md-6 col-lg-3">
+          <div class="feature-card text-center shadow-sm p-4 rounded-4 h-100">
+            <div class="icon-box bg-warning text-dark mb-3 mx-auto">
+              🔥
+            </div>
+            <h5 class="fw-semibold">Fun Challenges</h5>
+            <p class="text-muted">Solve exciting Python problems from basic to advanced levels. Say goodbye to boring lessons!</p>
+          </div>
+        </div>
+        <!-- Feature 2 -->
+        <div class="col-md-6 col-lg-3">
+          <div class="feature-card text-center shadow-sm p-4 rounded-4 h-100">
+            <div class="icon-box bg-primary text-white mb-3 mx-auto">
+              🏆
+            </div>
+            <h5 class="fw-semibold">Leaderboard</h5>
+            <p class="text-muted">Track your progress, earn XP, and see how you stack up against your friends!</p>
+          </div>
+        </div>
+        <!-- Feature 3 -->
+        <div class="col-md-6 col-lg-3">
+          <div class="feature-card text-center shadow-sm p-4 rounded-4 h-100">
+            <div class="icon-box bg-success text-white mb-3 mx-auto">
+              👨‍🎓
+            </div>
+            <h5 class="fw-semibold">Student Friendly</h5>
+            <p class="text-muted">Built with beginners in mind. Learn at your own pace and level up with each challenge.</p>
+          </div>
+        </div>
+        <!-- Feature 4 -->
+        <div class="col-md-6 col-lg-3">
+          <div class="feature-card text-center shadow-sm p-4 rounded-4 h-100">
+            <div class="icon-box bg-secondary text-white mb-3 mx-auto">
+              🎮
+            </div>
+            <h5 class="fw-semibold">Level System</h5>
+            <p class="text-muted">Unlock new levels as you master Python and get rewarded for your skills!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+ <!-- How It Works -->
+ <section class="features-section py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold" style="color: #1e3a8a;">How <span class="text-warning">It Works</span></h2>
+        <p class="text-muted fs-5">Getting started is simple and fun — follow these 4 easy steps!</p>
+      </div>
+      <div class="row g-4">
+        <!-- Step 1 -->
+        <div class="col-md-6 col-lg-3">
+          <div class="feature-card text-center shadow-sm p-4 rounded-4 h-100">
+            <div class="icon-box bg-warning text-dark mb-3 mx-auto">
+              🐍
+            </div>
+            <h5 class="fw-semibold">1. Sign Up</h5>
+            <p class="text-muted">Create your free account and join the Python adventure instantly!</p>
+          </div>
+        </div>
+        <!-- Step 2 -->
+        <div class="col-md-6 col-lg-3">
+          <div class="feature-card text-center shadow-sm p-4 rounded-4 h-100">
+            <div class="icon-box bg-primary text-white mb-3 mx-auto">
+              🎯
+            </div>
+            <h5 class="fw-semibold">2. Start Solving</h5>
+            <p class="text-muted">Choose a challenge and begin writing code right in your browser.</p>
+          </div>
+        </div>
+        <!-- Step 3 -->
+        <div class="col-md-6 col-lg-3">
+          <div class="feature-card text-center shadow-sm p-4 rounded-4 h-100">
+            <div class="icon-box bg-success text-white mb-3 mx-auto">
+              🧠
+            </div>
+            <h5 class="fw-semibold">3. Learn & Improve</h5>
+            <p class="text-muted">Get instant feedback and sharpen your Python skills step-by-step.</p>
+          </div>
+        </div>
+        <!-- Step 4 -->
+        <div class="col-md-6 col-lg-3">
+          <div class="feature-card text-center shadow-sm p-4 rounded-4 h-100">
+            <div class="icon-box bg-secondary text-white mb-3 mx-auto">
+              🏆
+            </div>
+            <h5 class="fw-semibold">4. Climb the Ranks</h5>
+            <p class="text-muted">Earn points, rise on the leaderboard, and show off your progress!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Challenge Categories -->
+<section class="features-section py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold" style="color: #1e3a8a;">Challenge <span class="text-warning">Categories</span></h2>
+      <p class="text-muted fs-5">Explore Python challenges grouped by skill level and topic.</p>
+    </div>
+    <div class="row g-4">
+      <!-- Category 1 -->
+      <div class="col-md-6 col-lg-3">
+        <div class="feature-card text-center shadow-sm p-4 rounded-4 h-100">
+          <div class="icon-box bg-warning text-dark mb-3 mx-auto">
+            <i class="bi bi-terminal-fill fs-3" style="color: #1e3a8a;"></i>
+          </div>
+          <h5 class="fw-semibold">Python Basics</h5>
+          <p class="text-muted">Start from scratch with variables, input, output, and syntax rules.</p>
+        </div>
+      </div>
+      <!-- Category 2 -->
+      <div class="col-md-6 col-lg-3">
+        <div class="feature-card text-center shadow-sm p-4 rounded-4 h-100">
+          <div class="icon-box bg-primary text-white mb-3 mx-auto">
+            🔁
+          </div>
+          <h5 class="fw-semibold">Loops & Logic</h5>
+          <p class="text-muted">Master if-else, for, while, and logical patterns with cool tasks.</p>
+        </div>
+      </div>
+      <!-- Category 3 -->
+      <div class="col-md-6 col-lg-3">
+        <div class="feature-card text-center shadow-sm p-4 rounded-4 h-100">
+          <div class="icon-box bg-success text-white mb-3 mx-auto">
+            ✨
+          </div>
+          <h5 class="fw-semibold">Beginner Challenges</h5>
+          <p class="text-muted">Simple yet fun problems to build confidence and learn Python easily.</p>
+        </div>
+      </div>
+      <!-- Category 4 -->
+      <div class="col-md-6 col-lg-3">
+        <div class="feature-card text-center shadow-sm p-4 rounded-4 h-100">
+          <div class="icon-box bg-danger text-white mb-3 mx-auto">
+            🧠
+          </div>
+          <h5 class="fw-semibold">Problem Solving</h5>
+          <p class="text-muted">Challenge yourself with logic-based and math-driven puzzles.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- Leaderboard Graph Section -->
+  <section class="features-section py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold" style="color: #1e3a8a;">Top <span class="text-warning">Ranks</span></h2>        <p class="text-muted fs-5">Visual representation of the leading players!</p>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <canvas id="leaderboardChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="cta-featured py-5" style="background-color: var(--bg-light);">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold" style="color: #1e3a8a;">Start Your <span class="text-warning">Python Journey</span></h2>
+        </h2>
+        <p class="text-muted fs-5">Fun, friendly, and perfect for students — PyChallenge makes learning exciting!</p>
+      </div>
+  
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="feature-card text-center shadow-sm p-4 rounded-4 bg-white">
+            <div class="icon-box bg-warning text-dark mb-3 mx-auto">
+              🎯
+            </div>
+            <h4 class="fw-semibold mb-3">Join Now and Start Solving Challenges</h4>
+            <p class="text-muted mb-4">
+              Whether you're just starting or already coding, PyChallenge is built to grow with you. Fun levels, cool badges, and friendly competition await!
+            </p>
+            <a href="#signup" class="btn btn-warning btn-lg text-dark fw-semibold px-4 rounded-pill shadow">
+              🚀 Get Started
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+  <footer class="py-5 mt-5 footer-section">
+    <div class="container">
+      <div class="row gy-4 text-center text-md-start">
+        <!-- Logo + Description -->
+        <div class="col-md-4">
+          <h4 class="fw-bold text-warning mb-3"> <Span style="color:#1e3a8a;">py</Span>Challenge</h4>
+          <p class="text-light small">Level up your Python skills with exciting coding challenges, a live leaderboard, and gamified learning — built just for students!</p>
+        </div>
+  
+        <!-- Quick Links -->
+        <div class="col-md-4">
+          <h5 class="fw-semibold text-white mb-3">Quick Links</h5>
+          <ul class="list-unstyled">
+            <li><a href="#how-it-works" class="footer-link">How It Works</a></li>
+            <li><a href="#leaderboard" class="footer-link">Leaderboard</a></li>
+            <li><a href="#features" class="footer-link">Features</a></li>
+            <li><a href="#contact" class="footer-link">Contact</a></li>
+          </ul>
+        </div>
+  
+        <!-- Contact + Socials -->
+        <div class="col-md-4">
+          <h5 class="fw-semibold text-white mb-3">Stay Connected</h5>
+          <p class="text-light small mb-1">📧 <a href="mailto:hello@pychallenge.com" class="footer-link text-warning">hello@pychallenge.com</a></p>
+          <div class="d-flex justify-content-center justify-content-md-start gap-3 mt-3">
+            <a href="#" class="footer-icon"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="footer-icon"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="footer-icon"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="footer-icon"><i class="bi bi-github"></i></a>
+          </div>
+        </div>
+      </div>
+  
+      <hr class="border-secondary mt-5" />
+      <div class="text-center small text-light mt-3">
+        &copy; 2025 <span class="text-warning">PyChallenge</span>. All rights reserved.
+      </div>
+    </div>
+  </footer>
+  
+  
+</body>
+<script src="js/script.js"></script>
+</html>
